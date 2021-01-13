@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import Post from './Post';
 import './App.css';
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
       alt=""
       />
       </div>
-      <h1>Let's get start</h1>
+      <Post />
     </div>
   );
 }
