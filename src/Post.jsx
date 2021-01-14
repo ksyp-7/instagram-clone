@@ -14,7 +14,7 @@ function Post() {
             </div>
 
             {/*header contains avatar nd username */}
-            <img className="Post_img" src="https://upload.wikimedia.org/wikipedia/commons/0/06/İnstagram-Profilime-Kim-Baktı-1.png" />
+            <img className="Post_img" src="https://picsum.photos/350/200" />
             {/*Image section */}
             <h4 className="post_text">
                 <strong>ksyp.7  </strong>
