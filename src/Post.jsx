@@ -2,23 +2,23 @@ import React from 'react';
 import { } from "./Post.css";
 import Avatar from '@material-ui/core/Avatar';
 
-function Post() {
+function Post({username, caption, imgUrl}) {
     return (
         <div className="post">
             <div className="post_header">
                 <Avatar
                     className="post_avatar"
                     alt="S"
-                    src="https://picsum.photos/200/300" />
-                <h3>Username</h3>
+                    src={imgUrl} />
+                <h3>{username}</h3>
             </div>
 
             {/*header contains avatar nd username */}
-            <img className="Post_img" src="https://picsum.photos/350/200" />
+            <img className="Post_img" src={imgUrl} />
             {/*Image section */}
             <h4 className="post_text">
-                <strong>ksyp.7  </strong>
-                this_is_the_caption.</h4>
+                <strong>{username}</strong>
+                {caption}</h4>
             {/*username nd cation implement section*/}
 
         </div>
