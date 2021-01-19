@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Post from './Post';
-import { db } from './firebase.jsx';
+import { db, auth } from './firebase.jsx';
 import './App.css'
 import Model from '@material-ui/core/Modal';
 import { makeStyles, modalStyle } from '@material-ui/core/styles';
@@ -32,10 +32,39 @@ function App() {
   const [modalStyle] = useState(getModelStyle);
   const [posts, setPosts] = useState([]);
   const [open, setOpen] = useState(false);
-
+  const [openSignIn, setOpenSignIn] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscripe = auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        //user has looged in....
+        console.log(authUser);
+        setUser(authUser);
+
+        if (authUser.displayName) {
+          //dont update username
+        } else {
+          return authUser.updateProfile({
+            displayName: username,
+          });
+        }
+      } else {
+        //user has loggrd out...
+        setUser(null);
+      }
+    })
+    return () => {
+      unsubscripe();
+    }
+  }, [user, username]);
+
+
+
+
 
   //useEfect -> Runs a piece of code based on a specific condition
   useEffect(() => {
@@ -49,10 +78,90 @@ function App() {
 
   const signUp = (event) => {
 
+    event.preventDefault();
+    auth.createUserWithEmailAndPassword(email, password)
+      .then((authUser) => {
+        return authUser.user.updateProfile({
+          displayName: username
+        })
+      })
+      .catch((error) => alert(error.message));
+    setOpen(false);
   }
+
+
+  const signIN = (event) => {
+    event.preventDefault();
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .catch((error) => alert(error.message));
+    setOpenSignIn(false);
+  }
+
+
+
+
+
+
+
+  const signIn = (event) => {
+    event.preventDefault();
+
+    auth
+      .sendPasswordResetEmail(email, password)
+      .catch((error) => alert(error.message))
+    setOpenSignIn(false);
+  }
+
 
   return (
     <div className="App">
+
+<Model
+        open={openSignIn}
+        onClose={() => setOpenSignIn(false)}>
+        <div
+          style={modalStyle}
+          className={classes.paper}>
+          <center>
+            <form className="app_signup">
+              <p align="center">
+                <img
+                  className="header_Img"
+                  src="https://upload.wikimedia.org/wikipedia/commons/0/06/%C4%B0nstagram-Profilime-Kim-Bakt%C4%B1-1.png"
+                  alt=""
+                />
+              </p>
+              <Input
+                placeholder="email"
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <br />
+              <Input
+                placeholder="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <br />
+
+              <Button type="submit" onClick={signIN}>Log In</Button>
+            </form>
+          </center>
+
+        </div>
+      </Model>
+
+
+
+
+
+
+
+
+
       <Model
         open={open}
         onClose={() => setOpen(false)}>
@@ -61,7 +170,7 @@ function App() {
           className={classes.paper}>
           <center>
             <form className="app_signup">
-              <p align="center"> 
+              <p align="center">
                 <img
                   className="header_Img"
                   src="https://upload.wikimedia.org/wikipedia/commons/0/06/%C4%B0nstagram-Profilime-Kim-Bakt%C4%B1-1.png"
@@ -91,7 +200,7 @@ function App() {
               />
               <br />
 
-              <Button onClick={signUp}>Sign Up</Button>
+              <Button type="submit" onClick={signUp}>Sign Up</Button>
             </form>
           </center>
 
@@ -105,8 +214,16 @@ function App() {
           alt=""
         />
       </div>
+      {user ? (
+        <Button onClick={() => auth.signOut()}>Logout</Button>
+      ) : (
+        <div className="app_login">
+          <Button onClick={() => setOpenSignIn(true)}>Log In</Button>
+          <Button onClick={() => setOpen(true)}> Sign up</Button>
+          </div>
+        )}
 
-      <Button onClick={() => setOpen(true)}>Sign Up</Button>
+
       {
         posts.map(post => (
           <Post username={post.username}
