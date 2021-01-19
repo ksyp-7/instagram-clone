@@ -5,6 +5,7 @@ import './App.css'
 import Model from '@material-ui/core/Modal';
 import { makeStyles, modalStyle } from '@material-ui/core/styles';
 import { Button, Input } from '@material-ui/core';
+import ImageUpload from './ImageUpload';
 function getModelStyle() {
   const top = 50;
   const left = 50;
@@ -117,7 +118,7 @@ function App() {
   return (
     <div className="App">
 
-<Model
+      <Model
         open={openSignIn}
         onClose={() => setOpenSignIn(false)}>
         <div
@@ -153,15 +154,6 @@ function App() {
 
         </div>
       </Model>
-
-
-
-
-
-
-
-
-
       <Model
         open={open}
         onClose={() => setOpen(false)}>
@@ -206,7 +198,6 @@ function App() {
 
         </div>
       </Model>
-
       <div className="header">
         <img
           className="header_Img"
@@ -214,12 +205,13 @@ function App() {
           alt=""
         />
       </div>
+      <ImageUpload />
       {user ? (
         <Button onClick={() => auth.signOut()}>Logout</Button>
       ) : (
-        <div className="app_login">
-          <Button onClick={() => setOpenSignIn(true)}>Log In</Button>
-          <Button onClick={() => setOpen(true)}> Sign up</Button>
+          <div className="app_login">
+            <Button onClick={() => setOpenSignIn(true)}>Log In</Button>
+            <Button onClick={() => setOpen(true)}> Sign up</Button>
           </div>
         )}
 
