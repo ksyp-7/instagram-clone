@@ -204,14 +204,7 @@ function App() {
           src="https://upload.wikimedia.org/wikipedia/commons/0/06/%C4%B0nstagram-Profilime-Kim-Bakt%C4%B1-1.png"
           alt=""
         />
-      </div>
-      {user?.displayName?(
-        <ImageUpload username={user.displayName} />
-      ) : (
-          <h3>You need to Login to upload</h3>
-        )}
-
-      {user ? (
+        {user ? (
         <Button onClick={() => auth.signOut()}>Logout</Button>
       ) : (
           <div className="app_login">
@@ -219,9 +212,11 @@ function App() {
             <Button onClick={() => setOpen(true)}> Sign up</Button>
           </div>
         )}
+      </div>
+      
 
-
-
+      
+      <div className="posts">
       {
         posts.map(post => (
           <Post username={post.username}
@@ -230,7 +225,18 @@ function App() {
           />
         ))
       }
+
+      </div>
+
+
+      
+      {user?.displayName?(
+        <ImageUpload username={user.displayName} />
+      ) : (
+          <h3>You need to Login to upload</h3>
+        )}
     </div>
+    
   );
 }
 
