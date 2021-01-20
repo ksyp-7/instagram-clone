@@ -205,7 +205,12 @@ function App() {
           alt=""
         />
       </div>
-      <ImageUpload />
+      {user?.displayName?(
+        <ImageUpload username={user.displayName} />
+      ) : (
+          <h3>You need to Login to upload</h3>
+        )}
+
       {user ? (
         <Button onClick={() => auth.signOut()}>Logout</Button>
       ) : (
@@ -214,6 +219,7 @@ function App() {
             <Button onClick={() => setOpen(true)}> Sign up</Button>
           </div>
         )}
+
 
 
       {
