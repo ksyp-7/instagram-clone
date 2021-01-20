@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import InstagramEmbed from 'react-instagram-embed';
 import Post from './Post';
 import { db, auth } from './firebase.jsx';
 import './App.css'
@@ -6,6 +7,8 @@ import Model from '@material-ui/core/Modal';
 import { makeStyles, modalStyle } from '@material-ui/core/styles';
 import { Button, Input } from '@material-ui/core';
 import ImageUpload from './ImageUpload';
+
+
 function getModelStyle() {
   const top = 50;
   const left = 50;
@@ -214,12 +217,15 @@ function App() {
         )}
       </div>
       
+     
 
       
       <div className="posts">
       {
         posts.map(post => (
           <Post username={post.username}
+                key={post.id}
+                postId={post.id}
             caption={post.caption}
             imgUrl={post.imgUrl}
           />
@@ -227,6 +233,21 @@ function App() {
       }
 
       </div>
+      <InstagramEmbed
+        url='https://www.instagram.com/p/CHGeB5BFFAb/'
+        maxWidth={320}
+        hideCaption={false}
+        containerTagName='div'
+        protocol=''
+        injectScript
+        onLoading={() => { }}
+        onSuccess={() => { }}
+        onAfterRender={() => { }}
+        onFailure={() => { }}
+      />
+
+
+
 
 
       
