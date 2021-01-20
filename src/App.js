@@ -217,7 +217,18 @@ function App() {
         )}
       </div>
       
-     
+      <InstagramEmbed
+        url='https://www.instagram.com/p/B_uf9dmAGPw/'
+        maxWidth={320}
+        hideCaption={false}
+        containerTagName='div'
+        protocol=''
+        injectScript
+        onLoading={() => {}}
+        onSuccess={() => {}}
+        onAfterRender={() => {}}
+        onFailure={() => {}}
+      />
 
       
       <div className="posts">
@@ -233,24 +244,8 @@ function App() {
       }
 
       </div>
-      <InstagramEmbed
-        url='https://www.instagram.com/p/CHGeB5BFFAb/'
-        maxWidth={320}
-        hideCaption={false}
-        containerTagName='div'
-        protocol=''
-        injectScript
-        onLoading={() => { }}
-        onSuccess={() => { }}
-        onAfterRender={() => { }}
-        onFailure={() => { }}
-      />
 
 
-
-
-
-      
       {user?.displayName?(
         <ImageUpload username={user.displayName} />
       ) : (
